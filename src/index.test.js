@@ -16,6 +16,10 @@ const Provider = ({ children }) => (
   <Context.Provider value="test">{children}</Context.Provider>
 );
 
+const LegacyProviderWithValue = ({ children }) => (
+  <LegacyProvider value="test">{children}</LegacyProvider>
+);
+
 const METHODS = ["shallow", "mount"];
 const COMPONENTS = [
   FunctionComponent,
@@ -25,19 +29,19 @@ const COMPONENTS = [
 
 const CONTEXT_CONFIGS = [
   [
-    "wrappingComponent, Provider",
+    "wrappingComponent: Provider",
     {
       wrappingComponent: Provider
     }
   ],
   [
-    "wrappingComponent, LegacyProvider",
+    "wrappingComponent: LegacyProvider",
     {
-      wrappingComponent: LegacyProvider
+      wrappingComponent: LegacyProviderWithValue
     }
   ],
   [
-    "old context",
+    "context prop",
     {
       context: {
         value: "test"
@@ -53,7 +57,7 @@ for (let [configType, config] of CONTEXT_CONFIGS) {
   describe(`Config: ${configType}`, () => {
     for (let Component of COMPONENTS) {
       describe(`Component: ${Component.name}`, () => {
-        METHODS.forEach((method) => {
+        for (let method of METHODS) {
           describe(`Method: ${method}`, () => {
             const tree = Enzyme[method](<Component />, config);
 
@@ -65,7 +69,7 @@ for (let [configType, config] of CONTEXT_CONFIGS) {
               expect(tree.context("value")).toBe("test");
             });
           });
-        });
+        };
       });
     }
   });

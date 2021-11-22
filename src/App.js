@@ -1,6 +1,7 @@
 import React, { createContext, useContext } from "react";
 import PropTypes from "prop-types";
 import "./styles.css";
+import { isThisTypeNode } from "typescript";
 
 export const Context = createContext();
 
@@ -17,7 +18,7 @@ export class ClassComponent extends React.Component {
 
 export class LegacyProvider extends React.Component {
   getChildContext() {
-    return { value: "test" };
+    return { value: this.props.value };
   }
 
   render() {
@@ -47,7 +48,7 @@ export default function App() {
         <ClassComponent />
       </Context.Provider>
       <LegacyProvider>
-        <LegacyConsumerClassComponent />
+        <LegacyConsumerClassComponent value="app" />
       </LegacyProvider>
     </div>
   );
