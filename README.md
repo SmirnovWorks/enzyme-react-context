@@ -1,5 +1,5 @@
 # enzyme-react-context
-Checking how different 
+Checking how different context types and enzyme methods are work together.
 
 ```
   Config: wrappingComponent: Provider
